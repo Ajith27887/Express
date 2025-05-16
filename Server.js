@@ -1,9 +1,28 @@
-require('dotenv').config();
-const express = require("express");
+import dotenv from 'dotenv';
+import express from 'express';
+import post from './routes/post.js';
+import logger from './middleware/logger.js';
+import errorhandler from './middleware/errorhandler.js';
 
+dotenv.config();
 const port = process.env.PORT
 
 const app = express(); //Initial express to app variable; //Express is a function;
+
+
+//MiddleWare
+app.use(logger)
+
+//Create new post middleware
+app.use(express.json()); //This is for body raw
+app.use(express.urlencoded({extended : true})); //This is for www-form-urlencoded
+
+
+//Router
+app.use("/api/post", post);
+
+//Errorhandling
+app.use(errorhandler)
 
 app.get("/", (req, res) => {
 	res.send("<h1>Hello World</h1>")
@@ -19,21 +38,3 @@ app.get("/contact", (req, res) => {
 
 app.listen(port, () => console.log(`server is started on ${port}`))
 
-//GET Single post 
-const post = [
-	{id : 1, name : "ajith"},
-	{id : 2, name : "yogesh"},
-	{id : 3, name : "kumar"}
-]
-
-app.get("/api/post/:id", (req, res) => {
-	const id = parseInt(req.params.id); //we take params id from request
-	res.json(post.filter(data => data.id === id))
-})
-
-//GET aLL post 
-app.get("/api/post/", (req, res) => {
-	const limit = parseInt(req.query.limit);
-	res.json(post.slice(0,limit))
-	
-})
