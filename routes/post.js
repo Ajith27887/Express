@@ -53,7 +53,9 @@ router.put("/:id",(req,res) => {
 
 	// Error Handling
 	if(!posts){
-		res.status(404).json({msg : "id not founs"});
+		const error = new Error("post id is not founded") //Middleware Error handling
+		res.status(404)
+		return next(error)
 	}
 
 	posts.name = req.body.name;
