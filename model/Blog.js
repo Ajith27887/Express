@@ -1,13 +1,18 @@
-import mongoose from "mongoose";
-const { Schema, model } = mongoose;
+import mongoose, { Schema, model } from "mongoose";
 
-const blogSchema = new Schema({
-  text: String,
-  slug: String,
-  published: Boolean
-},{
-	timeseries : true
-}); 
 
-const Blog = model('Blog', blogSchema);
-export default Blog;
+const Blog = Schema(
+	{
+		user : {
+			type:mongoose.Schema.Types.ObjectId,
+			required : true,
+			ref: 'User'
+		}
+	},
+	{
+		text: String,
+        required: [true, 'Text field is required']
+	}
+)
+
+export default model("Blog", Blog);

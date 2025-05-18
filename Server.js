@@ -3,12 +3,13 @@ import express from 'express';
 import post from './routes/post.js';
 import logger from './middleware/logger.js';
 import errorhandler from './middleware/errorhandler.js';
-import connectDB from './db.js';
+import connectdb from './db.js';
 import blogRouter from './routes/blog.js'
+import userRoute from "./routes/userroute.js"
 
-
-connectDB();
 dotenv.config();
+
+connectdb();
 const port = process.env.PORT
 
 const app = express(); //Initial express to app variable; //Express is a function;
@@ -22,8 +23,8 @@ app.use(express.urlencoded({extended : true})); //This is for www-form-urlencode
 
 
 //Router
-app.use("/api/post", post);
 app.use("/api/blog", blogRouter)
+app.use("/api/user", userRoute)
 
 //Catch All Error Middleware
 app.use((req,res,next) => {
