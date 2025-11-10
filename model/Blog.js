@@ -1,8 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
 
 
-const Blog = Schema(
-	{
+const Blog = Schema({
 		user : {
 			type:mongoose.Schema.Types.ObjectId,
 			required : true,
@@ -12,7 +11,6 @@ const Blog = Schema(
 	{
 		text: String,
         required: [true, 'Text field is required']
-	}
-)
+})
 
 export default model("Blog", Blog);
